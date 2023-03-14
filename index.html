@@ -150,11 +150,88 @@
 <li>DL Compiler分类法；</li>
 <li>不同DLC性能分析：不同模型，端到端，by layer。</li>
 </ul>
-<h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li>前端aspect：ONNX : 提供了统一的模型表达方式（不同DL框架训练的模型表达形式不同）</li>
-<li></li>
+<h3 id="Introduction-notes"><a href="#Introduction-notes" class="headerlink" title="Introduction notes"></a>Introduction notes</h3><ul>
+<li><p>前端aspect：ONNX : 提供了统一的模型表达方式（不同DL框架训练的模型表达形式不同）</p>
+</li>
+<li><p>后端aspect：许多公司开始研制custmized DL hardware，满足矩阵乘特性。主要分为三类：</p>
+<ul>
+<li><p>加了软硬件协同设计的多用途硬件</p>
+</li>
+<li><p>完全为DL model设计的</p>
+</li>
+<li><p>加了生物神经科学启发设计的</p>
+</li>
 </ul>
+</li>
+</ul>
+<h3 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h3><h4 id="Deep-Learning-Frameworks"><a href="#Deep-Learning-Frameworks" class="headerlink" title="Deep Learning Frameworks"></a>Deep Learning Frameworks</h4><p><img src="/Users/yunzhong/Desktop/yunBlog/source/_posts/assets/image-20230314233518506.png" alt="image-20230314233518506"></p>
+<h4 id="Deep-Learning-Hardware"><a href="#Deep-Learning-Hardware" class="headerlink" title="Deep Learning Hardware"></a>Deep Learning Hardware</h4><h4 id="Hardware-specific-DL-Code-Generator"><a href="#Hardware-specific-DL-Code-Generator" class="headerlink" title="Hardware-specific DL Code Generator"></a>Hardware-specific DL Code Generator</h4><h3 id="Common-design-architecture-of-DL-Compilers"><a href="#Common-design-architecture-of-DL-Compilers" class="headerlink" title="Common design architecture of DL Compilers"></a>Common design architecture of DL Compilers</h3><h3 id="Key-components-of-DL-Compilers"><a href="#Key-components-of-DL-Compilers" class="headerlink" title="Key components of DL Compilers"></a>Key components of DL Compilers</h3><h4 id="High-level-IR"><a href="#High-level-IR" class="headerlink" title="High-level IR"></a>High-level IR</h4><h5 id="Representation-of-Graph-IP"><a href="#Representation-of-Graph-IP" class="headerlink" title="Representation of Graph IP"></a>Representation of Graph IP</h5><ul>
+<li>DAG-based IR</li>
+<li>Let-binding-based IR</li>
+<li>Representing Tensor Computation<ul>
+<li>Function-based</li>
+<li>Lambda expression</li>
+<li>Einstein notation</li>
+</ul>
+</li>
+</ul>
+<h5 id="Implementation-of-Graph-IR"><a href="#Implementation-of-Graph-IR" class="headerlink" title="Implementation of Graph IR"></a>Implementation of Graph IR</h5><ul>
+<li>Data representation<ul>
+<li>Placeholder</li>
+<li>Unknown (Dynamic) shape representation</li>
+<li>Data layout</li>
+<li>Bound inference</li>
+</ul>
+</li>
+<li>Operators supported<ul>
+<li>Broadcast</li>
+<li>Control flow</li>
+<li>Derivative</li>
+<li>Customized operators</li>
+</ul>
+</li>
+</ul>
+<h4 id="Low-level-IR"><a href="#Low-level-IR" class="headerlink" title="Low-level IR"></a>Low-level IR</h4><h5 id="Implementation-of-Low-Level-IR"><a href="#Implementation-of-Low-Level-IR" class="headerlink" title="Implementation of Low-Level IR"></a>Implementation of Low-Level IR</h5><ul>
+<li>Halide-based IR</li>
+<li>Polyhedral-based IR</li>
+<li>Other unique IR</li>
+</ul>
+<h5 id="Code-Generation-based-on-Low-Level-IR"><a href="#Code-Generation-based-on-Low-Level-IR" class="headerlink" title="Code Generation based on Low-Level IR"></a>Code Generation based on Low-Level IR</h5><h4 id="Frontend-Optimizations"><a href="#Frontend-Optimizations" class="headerlink" title="Frontend Optimizations"></a>Frontend Optimizations</h4><img src="/Users/yunzhong/Desktop/yunBlog/source/_posts/assets/image-20230314234427830.png" alt="image-20230314234427830" style="zoom: 200%;" />
 
+<h5 id="Node-level-optimizations"><a href="#Node-level-optimizations" class="headerlink" title="Node-level optimizations"></a>Node-level optimizations</h5><h5 id="Block-level-optimizations"><a href="#Block-level-optimizations" class="headerlink" title="Block-level optimizations"></a>Block-level optimizations</h5><ul>
+<li>Algebraic simplification</li>
+<li>Operator fusion</li>
+<li>Operator sinking</li>
+</ul>
+<h5 id="Dataflow-level-optimizations"><a href="#Dataflow-level-optimizations" class="headerlink" title="Dataflow-level optimizations."></a>Dataflow-level optimizations.</h5><ul>
+<li>Common sub-expression elimination (CSE)</li>
+<li>Dead code elimination (DCE) </li>
+<li>Static memory planning</li>
+<li>Layout transformation</li>
+</ul>
+<h4 id="Backend-Optimizations"><a href="#Backend-Optimizations" class="headerlink" title="Backend Optimizations"></a>Backend Optimizations</h4><h5 id="Hardware-specific-Optimization"><a href="#Hardware-specific-Optimization" class="headerlink" title="Hardware-specific Optimization"></a>Hardware-specific Optimization</h5><p><img src="/Users/yunzhong/Desktop/yunBlog/source/_posts/assets/image-20230314234739843.png" alt="image-20230314234739843"></p>
+<ul>
+<li>Hardware intrinsic mapping</li>
+<li>Memory allocation and fetching</li>
+<li>Memory latency hiding</li>
+<li>Loop oriented optimizations <ul>
+<li>Loop fusion</li>
+<li>Sliding windows</li>
+<li>Tiling</li>
+<li>Loop reordering</li>
+<li>Loop unrolling</li>
+</ul>
+</li>
+<li>Parallelization</li>
+</ul>
+<h5 id="Auto-tuning"><a href="#Auto-tuning" class="headerlink" title="Auto-tuning"></a>Auto-tuning</h5><ul>
+<li>Parameterization</li>
+<li>Cost model</li>
+<li>Searching technique</li>
+<li>Acceleration</li>
+</ul>
+<h5 id="Optimized-Kernel-Libraries"><a href="#Optimized-Kernel-Libraries" class="headerlink" title="Optimized Kernel Libraries"></a>Optimized Kernel Libraries</h5><h3 id="Taxonomy-of-DL-Compilers"><a href="#Taxonomy-of-DL-Compilers" class="headerlink" title="Taxonomy of DL Compilers"></a>Taxonomy of DL Compilers</h3><p><img src="/Users/yunzhong/Desktop/yunBlog/source/_posts/assets/image-20230314235027549.png" alt="image-20230314235027549"></p>
+<h3 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h3>
       
     </div>
 
